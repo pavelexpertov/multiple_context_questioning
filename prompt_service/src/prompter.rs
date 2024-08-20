@@ -15,7 +15,6 @@ impl Prompter {
             py.run_bound(
                 r#"
 def give_me_random():
-    time.sleep(5)
     return "There you go, random!"
                 "#,
                 None,
