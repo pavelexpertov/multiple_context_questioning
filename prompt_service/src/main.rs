@@ -1,22 +1,29 @@
 mod prompter;
 
+use rocket::form::Form;
 use rocket::State;
 
 use prompter::Prompter;
 
 #[macro_use] extern crate rocket;
 
-#[get("/")]
-fn index(prompter: &State<Prompter>) -> String {
-    let response = prompter.prompt();
-    format!("Prompt's reseponse: {response}")
+#[derive(FromForm)]
+struct PromptRequest {
+    question: String
+}
+
+#[get("/single_prompt", data="<request_items>")]
+fn single_request(request_items: Form<PromptRequest>, prompter: &State<Prompter>) -> String {
+    let response = prompter.prompt(&request_items.question);
+    let t = format!("Prompt's reseponse: {response}");
+    println!("{}", t);
+    t
 }
 
 #[launch]
 fn rocket() -> _ {
     let p = Prompter::initialise();
-    //println!("{}", p.prompt());
     rocket::build()
         .manage(p)
-        .mount("/", routes![index])
+        .mount("/", routes![single_request])
 }
