@@ -15,9 +15,9 @@ struct MultipleContextPromptRequest {
 
 #[post("/multiple_context_prompt", data="<user_input>")]
 async fn multiple_context_prompt(user_input: Form<MultipleContextPromptRequest>) -> String {
-    let contexts: Vec<&str> = user_input.contexts
+    let contexts: Vec<String> = user_input.contexts
         .split(',')
-        .map(|context| { context.trim() })
+        .map(|context| { context.trim().to_string() })
         .collect();
 
     let question = if let Some(removed_question_mark) = user_input.question.strip_suffix("?") {
@@ -26,23 +26,24 @@ async fn multiple_context_prompt(user_input: Form<MultipleContextPromptRequest>)
         &user_input.question
     };
 
-    let futures = vec![];
+    let mut futures = vec![];
     for context in contexts.iter() {
         let context_prompt: String = format!("{question} in a context of {context}");
         let future = tokio::spawn(async move {
-            send_single_prompt(&context_prompt)
+            let context_prompt = context_prompt;
+            send_single_prompt(&context_prompt).await
         });
         futures.push(future);
     }
 
-    let responses: Vec<String> = vec![];
+    let mut responses: Vec<String> = vec![];
     for future in futures {
-        let response = future.await.unwrap().await;
+        let response = future.await.unwrap();
         responses.push(response);
     }
 
-    let response: String = String::from("");
-    for (returned_response, context) in responses.iter().chain(contexts.iter()) {
+    let mut response: String = String::from("");
+    for (returned_response, context) in responses.iter().zip(contexts.iter()) {
         let formatted_string = format!("Context {context}: {returned_response}\n\n");
         response.push_str(&formatted_string);
     }
