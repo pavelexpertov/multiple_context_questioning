@@ -1,0 +1,8 @@
+[package]
+name = "front_end_service"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+reqwest = "0.12.7"
+rocket = "0.5.1"
