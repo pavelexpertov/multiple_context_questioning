@@ -1,0 +1,8 @@
+[package]
+name = "prompt_service"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+pyo3 = "0.22.2"
+rocket = "0.5.1"
