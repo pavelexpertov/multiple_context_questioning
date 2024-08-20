@@ -5,8 +5,15 @@ name = "pypi"
 
 [packages]
 requests = "*"
+transformers = "*"
+datasets = "*"
+evaluate = "*"
+accelerate = "*"
+torch = "*"
+huggingface-hub = {extras = ["cli"], version = "*"}
 
 [dev-packages]
+ipython = "*"
 
 [requires]
 python_version = "3.10"
