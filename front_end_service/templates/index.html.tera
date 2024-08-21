@@ -5,11 +5,11 @@
 </head>
 
 <body>
- <form action="/action_page.php" method="get">
-  <label for="fname">First name:</label>
-  <input type="text" id="fname" name="fname"><br><br>
-  <label for="lname">Last name:</label>
-  <input type="text" id="lname" name="lname"><br><br>
+ <form action="/multiple_context_prompt" method="post">
+  <label for="fname">Question: </label>
+  <input type="text" id="question" name="question"><br><br>
+  <label for="lname">Contexts: </label>
+  <input type="text" id="contexts" name="contexts"><br><br>
   <input type="submit" value="Submit">
 </form> 
 </body>
