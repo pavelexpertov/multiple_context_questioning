@@ -5,6 +5,7 @@ use core::future::Future;
 use rocket::form::Form;
 use rocket::State;
 use rocket::tokio;
+use rocket_dyn_templates::{Template, context};
 use reqwest::{self, Error, Response, Client};
 
 #[derive(FromForm)]
@@ -51,6 +52,11 @@ async fn multiple_context_prompt(user_input: Form<MultipleContextPromptRequest>)
     response
 }
 
+#[get("/")]
+async fn index() -> Template {
+    Template::render("index", context! {})
+}
+
 #[get("/single_request")]
 async fn single_request() -> String {
 	let response = reqwest::get("http://localhost:8000")
@@ -65,7 +71,9 @@ async fn single_request() -> String {
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![multiple_context_prompt, single_request])
+    rocket::build()
+        .mount("/", routes![multiple_context_prompt, single_request, index])
+        .attach(Template::fairing())
 }
 
 async fn send_single_prompt(prompt: &str) -> String {

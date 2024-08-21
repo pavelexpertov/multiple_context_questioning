@@ -6,3 +6,8 @@ edition = "2021"
 [dependencies]
 reqwest = "0.12.7"
 rocket = "0.5.1"
+tera = "1.20.0"
+
+[dependencies.rocket_dyn_templates]
+features = ["tera"]
+version = "0.2.0"
