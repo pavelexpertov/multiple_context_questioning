@@ -54,11 +54,15 @@
 
     <div class="row g-5">
          <form action="/multiple_context_prompt" method="post">
-          <label for="fname">Question: </label>
-          <input type="text" id="question" name="question" {% if question %} value="{{question}}" {% endif %}><br><br>
-          <label for="lname">Contexts: </label>
-          <input type="text" id="contexts" name="contexts" {% if contexts %} value="{{contexts}}" {% endif %}><br><br>
-          <input type="submit" value="Submit">
+             <div class="col">
+                  <label class="form-label" for="question">Question: </label>
+                  <input class="form-control" type="text" id="question" name="question" {% if question %} value="{{question}}" {% endif %}><br><br>
+             </div>
+             <div class="col">
+                  <label class="form-label" for="contexts">Contexts: </label>
+                  <input class="form-control" type="text" id="contexts" name="contexts" {% if contexts %} value="{{contexts}}" {% endif %}><br><br>
+             </div>
+             <button type="submit" value="Submit" class="btn btn-primary">Prompt</button>
         </form> 
     </div>
   </main>
