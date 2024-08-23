@@ -13,7 +13,7 @@ struct MultipleContextPromptRequest {
 }
 
 #[post("/multiple_context_prompt", data="<user_input>")]
-async fn multiple_context_prompt(user_input: Form<MultipleContextPromptRequest>) -> String {
+async fn multiple_context_prompt(user_input: Form<MultipleContextPromptRequest>) -> Template {
     let contexts: Vec<String> = user_input.contexts
         .split(',')
         .map(|context| { context.trim().to_string() })
@@ -41,18 +41,21 @@ async fn multiple_context_prompt(user_input: Form<MultipleContextPromptRequest>)
         responses.push(response);
     }
 
-    let mut response: String = String::from("");
+    let mut context_response_tuples: Vec<(&str, &String)> = Vec::with_capacity(responses.len());
     for (returned_response, context) in responses.iter().zip(contexts.iter()) {
-        let formatted_string = format!("Context {context}: {returned_response}\n\n");
-        response.push_str(&formatted_string);
+        context_response_tuples.push((context, returned_response));
     }
 
-    response
+
+    Template::render("index", context! {question: &user_input.question,
+        contexts: &user_input.contexts,
+        context_responses: &context_response_tuples})
 }
 
 #[get("/")]
 async fn index() -> Template {
-    Template::render("index", context! {question: "", contexts: ""})
+    let empty_list: Vec<(&str, &String)> = vec![];
+    Template::render("index", context! {question: "", contexts: "", context_responses: &empty_list})
 }
 
 

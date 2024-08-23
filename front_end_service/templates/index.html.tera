@@ -65,6 +65,15 @@
              <button type="submit" value="Submit" class="btn btn-primary">Prompt</button>
         </form> 
     </div>
+    {% if context_responses %}
+        {% for tuple in context_responses %}
+        <div class="row g-5">
+            <div class="col-1"> {{tuple.0}}: </div>
+            <div class="col-11"> {{tuple.1}}: </div>
+        </div>
+        <br>
+        {% endfor %}
+    {% endif %}
   </main>
   <footer class="pt-5 my-5 text-muted border-top">
     Created by the Bootstrap team &middot; &copy; 2021
