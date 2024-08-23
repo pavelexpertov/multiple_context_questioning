@@ -27,7 +27,7 @@ async fn multiple_context_prompt(user_input: Form<MultipleContextPromptRequest>)
 
     let mut futures = vec![];
     for context in contexts.iter() {
-        let context_prompt: String = format!("{question} in a context of {context}");
+        let context_prompt: String = format!("{question} in a context of {context}?");
         let future = tokio::spawn(async move {
             let context_prompt = context_prompt;
             send_single_prompt(&context_prompt).await
