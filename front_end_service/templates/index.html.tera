@@ -7,9 +7,9 @@
 <body>
  <form action="/multiple_context_prompt" method="post">
   <label for="fname">Question: </label>
-  <input type="text" id="question" name="question"><br><br>
+  <input type="text" id="question" name="question" {% if question %} value="{{question}}" {% endif %}><br><br>
   <label for="lname">Contexts: </label>
-  <input type="text" id="contexts" name="contexts"><br><br>
+  <input type="text" id="contexts" name="contexts" {% if contexts %} value="{{contexts}}" {% endif %}><br><br>
   <input type="submit" value="Submit">
 </form> 
 </body>

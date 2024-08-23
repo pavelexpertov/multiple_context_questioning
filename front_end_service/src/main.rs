@@ -54,7 +54,7 @@ async fn multiple_context_prompt(user_input: Form<MultipleContextPromptRequest>)
 
 #[get("/")]
 async fn index() -> Template {
-    Template::render("index", context! {})
+    Template::render("index", context! {question: "fuck", contexts: "me"})
 }
 
 #[get("/single_request")]
