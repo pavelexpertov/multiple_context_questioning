@@ -1,12 +1,10 @@
 #[macro_use] extern crate rocket;
 
-use core::future::Future;
-
 use rocket::form::Form;
-use rocket::State;
-use rocket::tokio;
+use rocket::{tokio};
+use rocket::fs::FileServer;
 use rocket_dyn_templates::{Template, context};
-use reqwest::{self, Error, Response, Client};
+use reqwest::{self, Client};
 
 #[derive(FromForm)]
 struct MultipleContextPromptRequest {
@@ -54,8 +52,9 @@ async fn multiple_context_prompt(user_input: Form<MultipleContextPromptRequest>)
 
 #[get("/")]
 async fn index() -> Template {
-    Template::render("index", context! {question: "fuck", contexts: "me"})
+    Template::render("index", context! {question: "", contexts: ""})
 }
+
 
 #[get("/single_request")]
 async fn single_request() -> String {
@@ -73,6 +72,7 @@ async fn single_request() -> String {
 fn rocket() -> _ {
     rocket::build()
         .mount("/", routes![multiple_context_prompt, single_request, index])
+        .mount("/assets", FileServer::from("assets"))
         .attach(Template::fairing())
 }
 
