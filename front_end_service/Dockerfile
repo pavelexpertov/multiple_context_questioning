@@ -1,6 +1,6 @@
 FROM docker.io/rust:1.80.1-bullseye AS build
 
-WORKDIR built_app
+WORKDIR /built_app
 
 COPY Cargo.toml .
 COPY Cargo.lock .
